@@ -1,0 +1,5 @@
+.env
+task1.py
+try.py
+venv/
+__pycache__/
