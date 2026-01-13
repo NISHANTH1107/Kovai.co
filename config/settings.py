@@ -7,6 +7,7 @@ load_dotenv()
 BASE_URL = os.getenv("BASE_URL")
 API_TOKEN = os.getenv("API_TOKEN")
 USER_ID = os.getenv("USER_ID")
+print(USER_ID)
 
 # Global state
 class GlobalState:
@@ -29,7 +30,7 @@ def get_headers(api_token=None):
     token = api_token or API_TOKEN
     headers = {
         "Content-Type": "application/json",
-        "X-UserId": USER_ID
+        "user_id": USER_ID
     }
     if token:
         headers["api_token"] = token

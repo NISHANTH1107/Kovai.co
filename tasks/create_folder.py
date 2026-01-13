@@ -1,6 +1,6 @@
 # tasks/task2_create_folder.py
 from api.client import APIClient
-from config.settings import BASE_URL, GlobalState
+from config.settings import BASE_URL, GlobalState, USER_ID
 from utils.validator import validate_response_structure, validate_api_success
 
 def execute_task2(folder_title, parent_folder_id=None, api_token=None):
@@ -13,7 +13,8 @@ def execute_task2(folder_title, parent_folder_id=None, api_token=None):
     
     # Prepare request body
     body = {
-        "title": folder_title
+        "title": folder_title,
+        "user_id": USER_ID
     }
     
     if parent_folder_id and parent_folder_id.strip():
