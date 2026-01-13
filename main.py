@@ -28,8 +28,7 @@ def display_menu():
     print("2. Task #2: POST Create a New Folder")
     print("3. Task #3: PUT Update Folder Name")
     print("4. Task #4: DELETE the Folder")
-    print("5. Run All Tasks Sequentially")
-    print("6. Exit")
+    print("5. Exit")
     print("="*100)
 
 def main():
@@ -46,7 +45,7 @@ def main():
     
     while True:
         display_menu()
-        choice = get_user_input("\nEnter your choice (1-6): ")
+        choice = get_user_input("\nEnter your choice (1-5): ")
         
         if choice == "1":
             # Task 1: Get all folders
@@ -119,60 +118,6 @@ def main():
             input("\nPress Enter to continue...")
             
         elif choice == "5":
-            # Run all tasks sequentially
-            print("\n--- Running All Tasks Sequentially ---")
-            
-            # Task 1: Get all folders
-            folders = execute_task1(api_token)
-            if folders is None:
-                print(" Failed to retrieve folders. Stopping execution.")
-                input("\nPress Enter to continue...")
-                continue
-            
-            # Task 2: Create a new folder
-            print("\n--- Create New Folder ---")
-            folder_title = get_user_input("Enter folder title: ")
-            parent_id = get_user_input("Enter parent folder ID (press Enter to skip for root level): ", allow_empty=True)
-            
-            created_folder = execute_task2(folder_title, parent_id if parent_id else None, api_token)
-            if created_folder is None:
-                print(" Failed to create folder. Stopping execution.")
-                input("\nPress Enter to continue...")
-                continue
-            
-            # Task 3: Update the folder name
-            stored_folder_id = GlobalState.get_created_folder_id()
-            if stored_folder_id:
-                print("\n--- Update Folder Title ---")
-                new_title = get_user_input(f"Enter new title for folder (current: {folder_title}): ")
-                
-                updated_folder = execute_task3(stored_folder_id, new_title, api_token)
-                if updated_folder is None:
-                    print(" Failed to update folder.")
-            else:
-                print(" No folder ID available for update.")
-            
-            # Task 4: Delete the folder
-            if stored_folder_id:
-                print("\n--- Delete Folder ---")
-                confirm = get_user_input(f"Delete the created folder {stored_folder_id}? (y/n): ").lower()
-                if confirm == 'y':
-                    deletion_success = execute_task4(stored_folder_id, api_token)
-                    if not deletion_success:
-                        print(" Failed to delete folder.")
-                    else:
-                        GlobalState.clear_created_folder_id()
-                else:
-                    print(" Deletion skipped.")
-            else:
-                print(" No folder ID available for deletion.")
-            
-            print("\n" + "="*100)
-            print(" All Tasks Completed!")
-            print("="*100)
-            input("\nPress Enter to continue...")
-            
-        elif choice == "6":
             print("\n Exiting API Testing Script. Goodbye!")
             break
             
