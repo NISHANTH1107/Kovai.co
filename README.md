@@ -20,6 +20,41 @@ The project follows the API authentication requirement using the `api_token` hea
 
 ---
 
+## Project Structure
+
+```
+document360-drive-api/
+│
+├── .env                      # Environment variables (API_TOKEN, USER_ID, BASE_URL)
+├── .env.example             # Example environment file
+├── requirements.txt         # Python dependencies
+├── main.py                  # Main menu-driven interface
+├── README.md               # This file
+│
+├── config/                  # Configuration module
+│   ├── __init__.py
+│   └── settings.py         # API configuration and global state
+│
+├── utils/                  # Utility functions
+│   ├── __init__.py
+│   ├── logger.py          # Request/response logging
+│   └── validator.py       # Response validation
+│
+├── api/                    # API client module
+│   ├── __init__.py
+│   └── client.py          # Base API client with request methods
+│
+└── tasks/                  # Individual task implementations
+    ├── __init__.py
+    ├── task1_get_folders.py    # GET all folders
+    ├── task2_create_folder.py  # POST create folder
+    ├── task3_update_folder.py  # PUT update folder
+    ├── task4_delete_folder.py  # DELETE folder
+    └── get_folders.py          # (Legacy) Simple GET task
+```
+
+---
+
 ## Setup Instructions
 
 ### 1. Clone the repository
