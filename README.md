@@ -26,7 +26,6 @@ The project follows the API authentication requirement using the `api_token` hea
 document360-drive-api/
 │
 ├── .env                      # Environment variables (API_TOKEN, USER_ID, BASE_URL)
-├── .env.example             # Example environment file
 ├── requirements.txt         # Python dependencies
 ├── main.py                  # Main menu-driven interface
 ├── README.md               # This file
@@ -49,8 +48,7 @@ document360-drive-api/
     ├── task1_get_folders.py    # GET all folders
     ├── task2_create_folder.py  # POST create folder
     ├── task3_update_folder.py  # PUT update folder
-    ├── task4_delete_folder.py  # DELETE folder
-    └── get_folders.py          # (Legacy) Simple GET task
+    └── task4_delete_folder.py  # DELETE folder
 ```
 
 ---
