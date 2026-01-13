@@ -25,8 +25,8 @@ The project follows the API authentication requirement using the `api_token` hea
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
-cd document360-drive-api
+git clone <repo-url>
+cd Kovai.co
 ```
 
 ### 2. Install dependencies
@@ -50,42 +50,31 @@ USER_ID=your_user_id
 
 Each API operation is placed in a separate file inside `tasks/`.
 
-### Get All Folders
+### Run the Complete Project
 ```bash
-python tasks/get_folders.py
+python main.py
 ```
-
-### Create a Folder
-```bash
-python tasks/create_folder.py
-```
-
-### Update a Folder
-Edit `update_folder.py` with a folder ID, then run:
-```bash
-python tasks/update_folder.py
-```
-
-### Delete a Folder
-Edit `delete_folder.py` with a folder ID, then run:
-```bash
-python tasks/delete_folder.py
-```
-
 ---
 
 ## Sample Output
 
-**GET folders:**
 ```
-200
-{ "success": true, "data": [...] }
-```
+Welcome to API Testing Script
+====================================================================================================
 
-**POST create:**
-```
-201
-{ "success": true, "data": { "id": "...", "title": "nishanth-test" } }
+ API Token configured successfully!
+
+====================================================================================================
+API TESTING MENU
+====================================================================================================
+1. Task #1: GET All Drive Folders
+2. Task #2: POST Create a New Folder
+3. Task #3: PUT Update Folder Name
+4. Task #4: DELETE the Folder
+5. Exit
+====================================================================================================
+
+Enter your choice (1-5):
 ```
 
 ---
