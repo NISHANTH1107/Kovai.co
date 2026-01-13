@@ -1,20 +1,22 @@
-# api/base_client.py
+# api/client.py
 import requests
 import json
-from config.settings import HEADERS
+from config.settings import get_headers
 from utils.logger import log_request, log_response
-from utils.validator import validate_http_status
+from utils.validator import validate_http_status, validate_response_structure, validate_api_success
 
-class BaseAPIClient:
-    def __init__(self, base_url):
+class APIClient:
+    def __init__(self, base_url, api_token=None):
         self.base_url = base_url
-        self.headers = HEADERS.copy()
+        self.headers = get_headers(api_token)
+        self.api_token = api_token
     
-    def set_api_token(self, api_token):
+    def update_api_token(self, api_token):
         """Update API token in headers"""
-        self.headers["api_token"] = api_token
+        self.api_token = api_token
+        self.headers = get_headers(api_token)
     
-    def _make_request(self, method, endpoint, data=None, expected_status=None, timeout=30):
+    def _make_request(self, method, endpoint="", data=None, expected_status=None, timeout=30):
         """Generic request method"""
         url = f"{self.base_url}{endpoint}" if endpoint else self.base_url
         
@@ -52,11 +54,11 @@ class BaseAPIClient:
                 return {"status_code": response.status_code}
                 
         except requests.exceptions.Timeout:
-            print("❌ ERROR: Request timeout after 30 seconds")
+            print(" ERROR: Request timeout after 30 seconds")
             return None
         except requests.exceptions.RequestException as e:
-            print(f"❌ ERROR: Request failed: {e}")
+            print(f" ERROR: Request failed: {e}")
             return None
         except Exception as e:
-            print(f"❌ ERROR: Unexpected error: {e}")
+            print(f" ERROR: Unexpected error: {e}")
             return None

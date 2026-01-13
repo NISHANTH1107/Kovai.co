@@ -2,17 +2,11 @@
 import os
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
 
-# Configuration
-BASE_URL = "https://apihub.document360.io/v2/Drive/Folders"
-
-# Headers template
-HEADERS = {
-    "api_token": os.getenv("API_TOKEN", ""),
-    "Content-Type": "application/json"
-}
+BASE_URL = os.getenv("BASE_URL")
+API_TOKEN = os.getenv("API_TOKEN")
+USER_ID = os.getenv("USER_ID")
 
 # Global state
 class GlobalState:
@@ -29,3 +23,14 @@ class GlobalState:
     @classmethod
     def clear_created_folder_id(cls):
         cls.created_folder_id = None
+
+def get_headers(api_token=None):
+    """Get headers with optional API token override"""
+    token = api_token or API_TOKEN
+    headers = {
+        "Content-Type": "application/json",
+        "X-UserId": USER_ID
+    }
+    if token:
+        headers["api_token"] = token
+    return headers

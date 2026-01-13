@@ -1,11 +1,15 @@
 # main.py
-import time
-from config.settings import HEADERS, GlobalState
+import os
+import sys
+
+# Add the current directory to Python path
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from config.settings import GlobalState, API_TOKEN
 from tasks.get_folders import execute_task1
 from tasks.create_folder import execute_task2
 from tasks.update_folder import execute_task3
 from tasks.delete_folder import execute_task4
-
 
 def get_user_input(prompt, allow_empty=False):
     """Get input from user with validation"""
@@ -13,33 +17,32 @@ def get_user_input(prompt, allow_empty=False):
         user_input = input(prompt).strip()
         if user_input or allow_empty:
             return user_input
-        print("❌ Input cannot be empty. Please try again.")
-
+        print(" Input cannot be empty. Please try again.")
 
 def display_menu():
     """Display the main menu"""
-    print("\n" + "="*80)
+    print("\n" + "="*100)
     print("API TESTING MENU")
-    print("="*80)
+    print("="*100)
     print("1. Task #1: GET All Drive Folders")
     print("2. Task #2: POST Create a New Folder")
     print("3. Task #3: PUT Update Folder Name")
     print("4. Task #4: DELETE the Folder")
     print("5. Run All Tasks Sequentially")
     print("6. Exit")
-    print("="*80)
-
+    print("="*100)
 
 def main():
     """Main execution flow"""
-    print("\n" + "🚀 Welcome to API Testing Script")
-    print("="*80)
+    print("\n" + "Welcome to API Testing Script")
+    print("="*100)
     
-    # Get API token from user
-    api_token = get_user_input("Enter your API token: ")
-    HEADERS["api_token"] = api_token
+    # Use API token from .env or get from user
+    api_token = API_TOKEN
+    if not api_token:
+        api_token = get_user_input("Enter your API Token: ")
     
-    print("\n✅ API Token configured successfully!")
+    print("\n API Token configured successfully!")
     
     while True:
         display_menu()
@@ -49,7 +52,7 @@ def main():
             # Task 1: Get all folders
             folders = execute_task1(api_token)
             if folders is None:
-                print("❌ Failed to retrieve folders.")
+                print(" Failed to retrieve folders.")
             input("\nPress Enter to continue...")
             
         elif choice == "2":
@@ -60,7 +63,7 @@ def main():
             
             created_folder = execute_task2(folder_title, parent_id if parent_id else None, api_token)
             if created_folder is None:
-                print("❌ Failed to create folder.")
+                print(" Failed to create folder.")
             input("\nPress Enter to continue...")
             
         elif choice == "3":
@@ -83,7 +86,7 @@ def main():
             
             updated_folder = execute_task3(folder_id, new_title, api_token)
             if updated_folder is None:
-                print("❌ Failed to update folder.")
+                print(" Failed to update folder.")
             input("\nPress Enter to continue...")
             
         elif choice == "4":
@@ -106,13 +109,13 @@ def main():
             if confirm == 'y':
                 deletion_success = execute_task4(folder_id, api_token)
                 if not deletion_success:
-                    print("❌ Failed to delete folder.")
+                    print(" Failed to delete folder.")
                 else:
                     # Clear the stored ID if we deleted it
                     if stored_folder_id and folder_id == stored_folder_id:
                         GlobalState.clear_created_folder_id()
             else:
-                print("❌ Deletion cancelled.")
+                print(" Deletion cancelled.")
             input("\nPress Enter to continue...")
             
         elif choice == "5":
@@ -122,11 +125,9 @@ def main():
             # Task 1: Get all folders
             folders = execute_task1(api_token)
             if folders is None:
-                print("❌ Failed to retrieve folders. Stopping execution.")
+                print(" Failed to retrieve folders. Stopping execution.")
                 input("\nPress Enter to continue...")
                 continue
-            
-            time.sleep(1)
             
             # Task 2: Create a new folder
             print("\n--- Create New Folder ---")
@@ -135,11 +136,9 @@ def main():
             
             created_folder = execute_task2(folder_title, parent_id if parent_id else None, api_token)
             if created_folder is None:
-                print("❌ Failed to create folder. Stopping execution.")
+                print(" Failed to create folder. Stopping execution.")
                 input("\nPress Enter to continue...")
                 continue
-            
-            time.sleep(1)
             
             # Task 3: Update the folder name
             stored_folder_id = GlobalState.get_created_folder_id()
@@ -149,11 +148,9 @@ def main():
                 
                 updated_folder = execute_task3(stored_folder_id, new_title, api_token)
                 if updated_folder is None:
-                    print("❌ Failed to update folder.")
+                    print(" Failed to update folder.")
             else:
-                print("❌ No folder ID available for update.")
-            
-            time.sleep(1)
+                print(" No folder ID available for update.")
             
             # Task 4: Delete the folder
             if stored_folder_id:
@@ -162,27 +159,26 @@ def main():
                 if confirm == 'y':
                     deletion_success = execute_task4(stored_folder_id, api_token)
                     if not deletion_success:
-                        print("❌ Failed to delete folder.")
+                        print(" Failed to delete folder.")
                     else:
                         GlobalState.clear_created_folder_id()
                 else:
-                    print("❌ Deletion skipped.")
+                    print(" Deletion skipped.")
             else:
-                print("❌ No folder ID available for deletion.")
+                print(" No folder ID available for deletion.")
             
-            print("\n" + "="*80)
-            print("✅ All Tasks Completed!")
-            print("="*80)
+            print("\n" + "="*100)
+            print(" All Tasks Completed!")
+            print("="*100)
             input("\nPress Enter to continue...")
             
         elif choice == "6":
-            print("\n👋 Exiting API Testing Script. Goodbye!")
+            print("\n Exiting API Testing Script. Goodbye!")
             break
             
         else:
-            print("❌ Invalid choice. Please enter a number between 1 and 6.")
+            print(" Invalid choice. Please enter a number between 1 and 6.")
             input("\nPress Enter to continue...")
-
 
 if __name__ == "__main__":
     main()
